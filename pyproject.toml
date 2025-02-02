@@ -1,0 +1,17 @@
+[project]
+name = "login-network-rag"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "seungwonme",email = "seungwonan.me@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pre-commit (>=4.1.0,<5.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
