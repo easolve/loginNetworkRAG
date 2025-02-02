@@ -9,5 +9,5 @@ poetry install
 ## Usage
 
 ```bash
-poetry run login_network_rag/main.py
+poetry run python login_network_rag/main.py
 ```
