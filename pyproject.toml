@@ -1,18 +1,15 @@
 [project]
 name = "login-network-rag"
 version = "0.1.0"
-description = ""
-authors = [
-    {name = "seungwonme",email = "seungwonan.me@gmail.com"}
-]
+description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.13.1"
 dependencies = [
-    "pre-commit (>=4.1.0,<5.0.0)",
-    "pandas (>=2.2.3,<3.0.0)"
+    "langchain>=0.3.17",
+    "langchain-openai>=0.3.3",
+    "langchain-community>=0.3.16",
+    "langgraph>=0.2.69",
+    "chromadb>=0.6.3",
+    "pandas>=2.2.3",
+    "pre-commit>=4.1.0",
 ]
-
-
-[build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
