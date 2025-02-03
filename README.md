@@ -3,11 +3,11 @@
 ## Installation
 
 ```bash
-poetry install
+uv sync
 ```
 
 ## Usage
 
 ```bash
-poetry run python login_network_rag/main.py
+uv run python -m login_network_rag.main
 ```

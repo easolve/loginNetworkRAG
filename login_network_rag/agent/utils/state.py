@@ -1,14 +1,11 @@
-from typing import Annotated, Sequence
-from typing_extensions import TypedDict
-from langchain_core.messages import BaseMessage
-from langgraph.graph.message import add_messages
+from langgraph.graph import MessagesState
+from langchain_core.messages import AnyMessage
 
 
-class AgentState(TypedDict):
-    messages: Annotated[Sequence[BaseMessage], add_messages]
+class AgentState(MessagesState):
     category: str
     is_end: bool
 
 
-def initialize_state(messages: Sequence[BaseMessage] = []) -> AgentState:
+def initialize_state(messages: list[AnyMessage] = []) -> AgentState:
     return {"messages": messages, "category": "", "is_end": False}

@@ -1,12 +1,12 @@
+from langchain_core.messages import HumanMessage
 from langchain.globals import set_debug, set_verbose
 from login_network_rag.agent.agent import get_graph
 from login_network_rag.agent.utils.visualize import save_graph_as_png
 from login_network_rag.agent.utils.state import initialize_state
 import dotenv
 import logging
-from langchain_core.messages import HumanMessage
 
-# TEST: 디버그 시
+# TEST: 디버그
 set_debug(True)
 set_verbose(True)
 
@@ -25,11 +25,10 @@ def main():
             question = input("질문을 입력하세요 (종료하려면 'q' 입력): ")
             if question.lower() == "q":
                 break
-            state = initialize_state([HumanMessage(content=[question])])
+            state = initialize_state([HumanMessage(content=question)])
             result = graph.invoke(state)
-            # 결과 출력 형식 개선
             print("\n검색 결과:")
-            print(result)
+            print(result["messages"][-1].content)
         except KeyboardInterrupt:
             print("\n프로그램을 종료합니다.")
             break
