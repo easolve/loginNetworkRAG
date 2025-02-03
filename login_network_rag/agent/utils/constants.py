@@ -1,0 +1,14 @@
+from getpass import getpass
+import os
+
+
+def _set_env(var: str):
+    if not os.environ.get(var):
+        os.environ[var] = getpass(f"Please enter your {var}: ")
+
+
+_set_env("OPENAI_API_KEY")
+_set_env("MODEL")
+
+
+MODEL = os.environ["MODEL"]

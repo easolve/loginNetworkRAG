@@ -188,3 +188,4 @@ cython_debug/
 
 # Miscellaneous files
 *.db
+*.png
