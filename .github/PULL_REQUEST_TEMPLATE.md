@@ -4,9 +4,9 @@
 
 PR이 다음 요구 사항을 충족하는지 확인해 주세요:
 
-- [ ] 다음 가이드라인을 지켰습니다: https://github.com/easerve/easerve/blob/develop/.github/CONVENTIONS.md
-- [ ] 변경 사항에 대한 테스트가 추가되었습니다 (for bug fixes / features)
-- [ ] 문서가 추가되었거나 업데이트되었습니다 (for bug fixes / features)
+- [ ] `.github/conventions.md`의 컨벤션을 준수했습니다.
+- [ ] 변경 사항에 대한 테스트가 추가되었습니다. (for bug fixes / features)
+- [ ] 문서가 추가되었거나 업데이트 되었습니다. (for bug fixes / features)
 
 ## PR Type
 
@@ -25,7 +25,6 @@ PR이 다음 요구 사항을 충족하는지 확인해 주세요:
 - [ ] ci: CI 구성파일 및 스크립트 변경
 - [ ] perf (performance): 성능 개선
 - [ ] revert: 이전 커밋 되돌리기
-- [ ] etc ((어떤 종류인지 설명해 주세요)):
 
 ## What is the current behavior?
 
