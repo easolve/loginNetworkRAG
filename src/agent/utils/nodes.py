@@ -1,11 +1,11 @@
-from langchain_openai import ChatOpenAI
-from pydantic import BaseModel, Field
-from langchain_core.messages import HumanMessage, AIMessage
 from .state import AgentState
 from .constants import MODEL
 from .prompts import QUERY_ANALYSIS
 from .tools import retriever_tool
+from langchain_core.messages import HumanMessage, AIMessage
+from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import ToolNode
+from pydantic import BaseModel, Field
 
 
 def query_analysis(state: AgentState):
