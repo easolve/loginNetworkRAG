@@ -12,14 +12,14 @@ def query_analysis(state: AgentState):
     class analysis(BaseModel):
         category: str = Field(description="질문 카테고리")
 
-    query = state["messages"][0].content
+    query = state["messages"][-1].content
     model = ChatOpenAI(model=MODEL, temperature=0)
 
     model_with_tool = model.with_structured_output(analysis)
     chain = QUERY_ANALYSIS | model_with_tool
 
     res = chain.invoke({"query": query})
-    category = res["category"]
+    category = res.category
     new_is_end = True if category == "판단 보류" else False
     return {"is_end": new_is_end}
 
