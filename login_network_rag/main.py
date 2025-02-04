@@ -1,17 +1,14 @@
-from langchain_core.messages import HumanMessage
-from langchain.globals import set_debug, set_verbose
 from login_network_rag.agent.agent import get_graph
 from login_network_rag.agent.utils.visualize import save_graph_as_png
 from login_network_rag.agent.utils.state import initialize_state
+from login_network_rag.agent.utils.logger import logger
+from langchain_core.messages import HumanMessage
+from langchain.globals import set_debug, set_verbose
 import dotenv
-import logging
 
 # TEST: 디버그
 set_debug(True)
 set_verbose(True)
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 dotenv.load_dotenv()
 

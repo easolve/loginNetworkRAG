@@ -38,7 +38,7 @@ def cc_agent(state: AgentState):
                     tool_calls=[
                         {
                             "name": "retriever_tool",
-                            "args": {"query": state["messages"][-1].content},
+                            "args": {"question": state["messages"][-1].content},
                             "id": "tool_call_1",
                             "type": "tool_call",
                         }

@@ -12,3 +12,4 @@ _set_env("MODEL")
 
 
 MODEL = os.environ["MODEL"]
+CSV_PATH = "./data/aIcs-ace.csv"

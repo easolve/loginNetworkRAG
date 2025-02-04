@@ -1,5 +1,5 @@
-from langgraph.graph.state import CompiledGraph
 from IPython.display import display
+from langgraph.graph.state import CompiledGraph
 from langchain_core.runnables.graph import MermaidDrawMethod
 
 
