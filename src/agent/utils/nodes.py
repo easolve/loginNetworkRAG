@@ -1,8 +1,7 @@
 from .state import AgentState
 from .constants import MODEL
 from .prompts import Category, QUERY_ANALYSIS_PROMPT
-from .tools import retriever_tool
-from langchain_core.messages import HumanMessage, AIMessage
+from .tools import retriever_tool, express_carrier_tool
 from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import ToolNode
 from pydantic import BaseModel, Field
@@ -24,25 +23,11 @@ def query_analysis(state: AgentState):
     return {"is_end": new_is_end}
 
 
-tools = [retriever_tool]
+tools = [retriever_tool, express_carrier_tool]
 tool_node = ToolNode(tools)
 
 
 def cc_agent(state: AgentState):
     model_with_tools = ChatOpenAI(model=MODEL, temperature=0).bind_tools(tools)
-    if isinstance(state["messages"][-1], HumanMessage):
-        return {
-            "messages": [
-                AIMessage(
-                    content="",
-                    tool_calls=[{
-                        "name": "retriever_tool",
-                        "args": {"question": state["messages"][-1].content},
-                        "id": "tool_call_1",
-                        "type": "tool_call",
-                    }],
-                )
-            ]
-        }
     res = model_with_tools.invoke(state["messages"])
     return {"messages": [res]}

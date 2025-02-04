@@ -6,3 +6,4 @@ repos:
     rev: 24.10.0
     hooks:
       - id: black
+        args: ['--target-version', 'py313']
