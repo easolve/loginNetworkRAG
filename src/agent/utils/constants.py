@@ -1,5 +1,8 @@
 from getpass import getpass
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 
 def _set_env(var: str):

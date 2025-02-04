@@ -17,11 +17,11 @@ class RAGRetriever:
     def load_documents(self) -> List[Document]:
         try:
             df = pd.read_csv(self.csv_path)
-            df = df.dropna(subset=["분류", "input", "response"])
+            df = df.dropna(subset=["category", "input", "response"])
             return [
                 Document(
                     page_content=row["input"],
-                    metadata={"분류": row["분류"], "response": row["response"]},
+                    metadata={"category": row["category"], "response": row["response"]},
                 )
                 for _, row in df.iterrows()
             ]
@@ -49,14 +49,14 @@ class RAGRetriever:
             docs = self.retriever.get_relevant_documents(question)
             if not docs:
                 return {
-                    "분류": "없음",
+                    "category": "없음",
                     "input": question,
                     "response": "해당 질문에 대한 답변을 찾을 수 없습니다.",
                 }
 
             doc = docs[0]
             return {
-                "분류": doc.metadata.get("분류", "분류 정보 없음"),
+                "category": doc.metadata.get("category", "분류 정보 없음"),
                 "input": doc.page_content,
                 "response": doc.metadata.get("response", "응답 정보 없음"),
             }
@@ -80,7 +80,7 @@ def retriever_tool(question: str) -> Dict:
 
     Returns:
         Dict: {
-            "분류": str,
+            "category": str,
             "input": str,
             "response": str
         }

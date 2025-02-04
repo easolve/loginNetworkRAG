@@ -1,23 +1,21 @@
 from src.agent.agent import get_graph
 from src.agent.utils.visualize import save_graph_as_png
-from src.agent.utils.state import initialize_state
+from src.agent.utils.state import AgentState, initialize_state
 from src.agent.utils.logger import logger
 from langchain_core.messages import HumanMessage
 from langchain.globals import set_debug, set_verbose
 from langchain_core.runnables import RunnableConfig
-import dotenv
 from typing import Optional
 
 # TEST: 디버그
 set_debug(True)
 set_verbose(True)
 
-dotenv.load_dotenv()
-
 
 def main():
     graph = get_graph()
     config: Optional[RunnableConfig] = {"configurable": {"thread_id": "1"}}
+    state: AgentState = initialize_state()
     save_graph_as_png(graph, "workflow.png")
 
     while True:
@@ -25,10 +23,12 @@ def main():
             question = input("질문을 입력하세요 (종료하려면 'q' 입력): ")
             if question.lower() == "q":
                 break
-            state = initialize_state([HumanMessage(content=question)])
-            result = graph.invoke(state, config)
-            print("\n검색 결과:")
-            print(result["messages"][-1].content)
+            res = graph.invoke(
+                {"messages": [HumanMessage(content=question)]},
+                config,
+                stream_mode="values",
+            )
+            print(f"답변: {res["messages"][-1].content}")
         except KeyboardInterrupt:
             print("\n프로그램을 종료합니다.")
             break
