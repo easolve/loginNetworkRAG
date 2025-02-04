@@ -4,7 +4,9 @@ from src.agent.utils.state import initialize_state
 from src.agent.utils.logger import logger
 from langchain_core.messages import HumanMessage
 from langchain.globals import set_debug, set_verbose
+from langchain_core.runnables import RunnableConfig
 import dotenv
+from typing import Optional
 
 # TEST: 디버그
 set_debug(True)
@@ -15,6 +17,7 @@ dotenv.load_dotenv()
 
 def main():
     graph = get_graph()
+    config: Optional[RunnableConfig] = {"configurable": {"thread_id": "1"}}
     save_graph_as_png(graph, "workflow.png")
 
     while True:
@@ -23,7 +26,7 @@ def main():
             if question.lower() == "q":
                 break
             state = initialize_state([HumanMessage(content=question)])
-            result = graph.invoke(state)
+            result = graph.invoke(state, config)
             print("\n검색 결과:")
             print(result["messages"][-1].content)
         except KeyboardInterrupt:

@@ -3,6 +3,7 @@ from .utils.nodes import query_analysis, cc_agent, tool_node
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph.state import CompiledStateGraph
 from langchain_core.messages import AIMessage
+from langgraph.checkpoint.memory import MemorySaver
 
 
 def get_graph() -> CompiledStateGraph:
@@ -28,7 +29,8 @@ def get_graph() -> CompiledStateGraph:
     builder.add_conditional_edges("cc_agent", should_continue, ["tools", END])
     builder.add_edge("tools", "cc_agent")
 
-    graph = builder.compile()
+    memory = MemorySaver()
+    graph = builder.compile(checkpointer=memory)
     return graph
 
 
