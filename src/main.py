@@ -1,6 +1,5 @@
 from .agent.agent import get_graph
 from .agent.utils.visualize import save_graph_as_png
-from .agent.utils.state import AgentState, initialize_state, update_state
 from .agent.utils.logger import logger
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain.globals import set_debug, set_verbose
@@ -14,7 +13,6 @@ set_verbose(True)
 
 def main():
     graph = get_graph()
-    state: AgentState = initialize_state()
     config: Optional[RunnableConfig] = {"configurable": {"thread_id": "1"}}
     save_graph_as_png(graph, "workflow.png")
 
@@ -25,12 +23,11 @@ def main():
                 break
 
             res = graph.invoke(
-                {"messages": [HumanMessage(content=question)]},
+                {"messages": [HumanMessage(content=question)], "category": ""},
                 config,
                 stream_mode="values",
             )
 
-            state = update_state(state, messages=res["messages"], category=res["category"])
             if isinstance(res["messages"][-1], AIMessage):
                 print(f"답변: {res["messages"][-1].content}")
         except KeyboardInterrupt:

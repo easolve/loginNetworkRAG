@@ -9,7 +9,9 @@ def query_analysis(state: AgentState):
     class Analysis(BaseModel):
         category: Category = Field(description="판단 결과")
 
-    messages_str = [msg.content for msg in state["messages"]]
+    messages_str = "".join(
+        message.content for message in state["messages"] if isinstance(message.content, str)
+    )
     # query = state["messages"][-1].content
     query = messages_str
     model = ChatOpenAI(model=MODEL, temperature=0)

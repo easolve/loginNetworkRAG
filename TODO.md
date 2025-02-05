@@ -11,9 +11,14 @@
   - [ ] 회사 정보 저장
   - [ ] 대화 내용 저장
 - [ ] 랭그래프 공부
-  - [ ] [QuickStart 이해하기](https://langchain-ai.github.io/langgraph/tutorials/introduction/)
   - [ ] 책 읽기
+  - [ ] [QuickStart 이해하기](https://langchain-ai.github.io/langgraph/tutorials/introduction/)
   - [ ] [ToolNode 완벽 이해](https://langchain-ai.github.io/langgraph/how-tos/tool-calling/#define-tools)
+  - [ ] https://langchain-ai.github.io/langgraph/concepts/
+  - [ ] https://langchain-ai.github.io/langgraph/concepts/low_level/#default-reducer
+  - [ ] https://langchain-ai.github.io/langgraph/concepts/persistence/
+  - [ ] https://langchain-ai.github.io/langgraph/concepts/low_level/
+  - [ ] https://langchain-ai.github.io/langgraph/how-tos/configuration/
 - [ ] 파일 구조 참고하기
   - [ ] [JoshuaC215/agent-service-toolkit](https://github.com/JoshuaC215/agent-service-toolkit/tree/main)
   - [ ] [virattt/ai-hedge-fund](https://github.com/virattt/ai-hedge-fund)
