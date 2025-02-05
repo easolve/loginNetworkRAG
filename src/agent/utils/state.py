@@ -1,14 +1,24 @@
+from .prompts import SYSTEM_PROMPT
 from langgraph.graph import MessagesState
-from langchain_core.messages import AnyMessage, HumanMessage, SystemMessage
+from langchain_core.messages import AnyMessage, SystemMessage
 
 
 class AgentState(MessagesState):
     category: str
-    is_end: bool
 
 
 def initialize_state() -> AgentState:
     messages: list[AnyMessage] = [
-        SystemMessage(content="당신은 AI CC 상담 챗봇입니다."),
+        SystemMessage(content=SYSTEM_PROMPT),
     ]
-    return {"messages": messages, "category": "", "is_end": False}
+    return {
+        "messages": messages,
+        "category": "",
+    }
+
+
+def update_state(state: AgentState, **kwargs) -> AgentState:
+    for key, value in kwargs.items():
+        if key in state:
+            state[key] = value
+    return state

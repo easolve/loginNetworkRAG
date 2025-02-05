@@ -1,5 +1,5 @@
-from .logger import logger
-from .constants import CSV_PATH
+from ..utils.logger import logger
+from ..utils.constants import CSV_PATH
 from langchain_community.vectorstores import Chroma
 from langchain.schema import Document
 from langchain_openai import OpenAIEmbeddings
@@ -86,83 +86,3 @@ def retriever_tool(question: str) -> Dict:
         }
     """
     return retriever.query(question)
-
-
-@tool
-def customs_carrier_tool() -> Dict:
-    """
-    통관 정보를 제공합니다.
-
-    Returns:
-        Dict: {
-            "category": str,
-            "input": str,
-            "response": str
-        }
-    """
-    return {
-        "category": "통관",
-        "input": "통관 정보",
-        "response": "통관 정보를 제공합니다.",
-    }
-
-
-from enum import Enum
-
-
-class ExpressCourier(Enum):
-    PATECH = "파테크"
-    SGL = "SGL"
-    NAMGYEONG = "남경"
-    LOGISTORM = "로지스톰"
-    LOTOS = "LOTOS"
-    ACE = "ACE"
-
-
-@tool
-def express_carrier_tool(name: ExpressCourier) -> Dict:
-    """
-    특송사 정보를 제공합니다.
-
-    Returns:
-        Dict: {
-            "email": str,
-            "Telephone": str,
-        }
-    """
-    match name:
-        case ExpressCourier.PATECH:
-            return {
-                "email": "admin@forwarder.kr",
-                "Telephone": "032-201-1155",
-            }
-        case ExpressCourier.SGL:
-            return {
-                "email": "sgl@siriusglobal.co.kr",
-                "Telephone": "051-441-7341",
-            }
-        case ExpressCourier.NAMGYEONG:
-            return {
-                "email": "gtjeon@namkyungglobal.com",
-                "Telephone": "02-577-3331",
-            }
-        case ExpressCourier.LOGISTORM:
-            return {
-                "email": "logistormail@gmail.com",
-                "Telephone": "02-2667-0306",
-            }
-        case ExpressCourier.LOTOS:
-            return {
-                "email": "sale@lotos.co.jp ",
-                "Telephone": "+81-3-6278-9408",
-            }
-        case ExpressCourier.ACE:
-            return {
-                "email": "import2@iecoz.com",
-                "Telephone": "02-2038-7224",
-            }
-        case _:
-            return {
-                "email": "정보 없음",
-                "Telephone": "정보 없음",
-            }

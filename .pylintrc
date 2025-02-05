@@ -1,0 +1,26 @@
+[MASTER]
+ignore=CVS
+persistent=yes
+load-plugins=
+
+[MESSAGES CONTROL]
+disable=C0114,  # missing-module-docstring
+        C0115,  # missing-class-docstring
+        C0116,  # missing-function-docstring
+        R0903,  # too-few-public-methods
+        W0718,  # broad-exception-caught
+        W1203,  # logging-fstring-interpolation
+        E0401,  # import-error
+        E0402,  # relative-beyond-top-level
+        C0411,  # wrong-import-order
+        C0412,  # ungrouped-imports
+        W0621   # redefined-outer-name
+
+[FORMAT]
+max-line-length=100
+
+[BASIC]
+good-names=i,j,k,ex,Run,_,id
+
+[MISCELLANEOUS]
+notes=FIXME,XXX,TODO
