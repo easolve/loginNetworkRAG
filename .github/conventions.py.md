@@ -48,8 +48,11 @@
 
 ## Code Style Convention
 
-- [Black](https://black.readthedocs.io/en/latest/the_black_code_style/)을 사용하여 코드 스타일을 관리합니다.
 - [PEP 8](https://peps.python.org/pep-0008/)을 준수하여 코드를 작성합니다.
+- [Black](https://black.readthedocs.io/en/latest/the_black_code_style/)을 사용하여 코드 스타일을 관리합니다.
+- [Flake8](https://flake8.pycqa.org/en/latest/)과 [Pylint](https://pylint.pycqa.org/en/latest/)를 사용하여 코드 품질을 관리합니다.
+  - [.flake8](https://flake8.pycqa.org/en/latest/user/configuration.html)
+  - [구글 스타일 가이드 .pylintrc](https://google.github.io/styleguide/pyguide.html)
 
 ### Black
 
@@ -77,10 +80,13 @@ repos:
     rev: 7.1.1
     hooks:
       - id: flake8
+        args: ['--config=.flake8']
   - repo: https://github.com/pylint-dev/pylint
     rev: v3.3.4
     hooks:
       - id: pylint
+        args:
+          - '--rcfile=.pylintrc'
 ```
 
 ```shell
