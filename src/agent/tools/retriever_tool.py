@@ -1,8 +1,8 @@
-from ..utils.logger import logger
-from ..utils.constants import CSV_PATH
+from src.agent.utils.logger import logger
+from src.agent.utils.constants import CSV_PATH
 from langchain_community.vectorstores import Chroma
-from langchain.schema import Document
 from langchain_openai import OpenAIEmbeddings
+from langchain.schema import Document
 from langchain.tools import tool
 import pandas as pd
 from typing import List, Dict
@@ -26,7 +26,7 @@ class RAGRetriever:
                 for _, row in df.iterrows()
             ]
         except Exception as e:
-            logger.error(f"문서 로딩 중 에러 발생: {e}")
+            logger.error("문서 로딩 중 에러 발생: %s", e)
             raise
 
     def setup_retriever(self, docs: List[Document]) -> None:
@@ -38,7 +38,7 @@ class RAGRetriever:
             )
             self.retriever = vectorstore.as_retriever(search_kwargs={"k": 1})
         except Exception as e:
-            logger.error(f"리트리버 설정 중 에러 발생: {e}")
+            logger.error("리트리버 설정 중 에러 발생: %s", e)
             raise
 
     def query(self, question: str) -> Dict:
@@ -50,39 +50,40 @@ class RAGRetriever:
             if not docs:
                 return {
                     "category": "없음",
-                    "input": question,
+                    "similar_input": question,
                     "response": "해당 질문에 대한 답변을 찾을 수 없습니다.",
                 }
 
             doc = docs[0]
             return {
-                "category": doc.metadata.get("category", "분류 정보 없음"),
-                "input": doc.page_content,
-                "response": doc.metadata.get("response", "응답 정보 없음"),
+                "category": doc.metadata.get("category", "없음"),
+                "similar_input": doc.page_content,
+                "response": doc.metadata.get("response", "없음"),
             }
         except Exception as e:
-            logger.error(f"쿼리 실행 중 에러 발생: {e}")
+            logger.error("쿼리 실행 중 에러 발생: %s", e)
             raise
 
 
 retriever = RAGRetriever(CSV_PATH)
-docs = retriever.load_documents()
-retriever.setup_retriever(docs)
+documents = retriever.load_documents()
+retriever.setup_retriever(documents)
 
 
 @tool
-def retriever_tool(question: str) -> Dict:
+def retriever_tool(user_input: str) -> Dict:
     """
-    질문에 대한 관련 정보를 검색하여 응답합니다.
+    사용자의 입력에 대해서 가장 유사한 Q/A 문서를 제공합니다.
+    사용자의 입력과 가장 유사한 응답이 같은 맥락이라면 해당 응답을 사용합니다.
 
     Args:
-        question (str): 사용자의 질문
+        user_input (str): 사용자의 입력
 
     Returns:
         Dict: {
             "category": str,
-            "input": str,
+            "similar_input": str,
             "response": str
         }
     """
-    return retriever.query(question)
+    return retriever.query(user_input)
