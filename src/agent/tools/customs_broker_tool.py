@@ -3,9 +3,9 @@ from typing import Dict
 
 
 @tool
-def customs_carrier_tool() -> Dict:
+def customs_broker_tool() -> Dict:
     """
-    통관 정보를 제공합니다.
+    관세 정보를 제공합니다.
 
     Returns:
         Dict: {
