@@ -43,8 +43,8 @@ CARRIER_INFO = {
 @tool
 def express_carrier_tool(name: ExpressCourier) -> Dict:
     """
-    특송사의 정보를 제공합니다.
-    사용자가 특송 업체에 직접 문의할 수 있는 이메일과 전화번호를 제공합니다.
+    사용자가 특송 업체에 직접 문의할 수 있도록 특송사의 정보를 제공합니다.
+    이메일과 전화번호를 제공합니다.
 
     Returns:
         Dict: {

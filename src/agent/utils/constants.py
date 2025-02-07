@@ -16,7 +16,7 @@ _set_env("MODEL")
 
 
 MODEL = os.environ["MODEL"]
-CSV_PATH = "./data/aIcs-ace.csv"
+CSV_PATH = "./data/manual.csv"
 
 
 class Category(str, Enum):

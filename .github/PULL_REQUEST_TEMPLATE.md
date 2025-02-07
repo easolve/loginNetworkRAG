@@ -8,24 +8,6 @@ PR이 다음 요구 사항을 충족하는지 확인해 주세요:
 - [ ] 변경 사항에 대한 테스트가 추가되었습니다. (for bug fixes / features)
 - [ ] 문서가 추가되었거나 업데이트 되었습니다. (for bug fixes / features)
 
-## PR Type
-
-이 PR이 어떤 종류의 변경 사항을 도입했나요?
-
-<!-- 해당하는 항목에 "x"를 사용하여 체크해 주세요. -->
-
-- [ ] feat (feature): 새로운 기능 추가
-- [ ] fix (bug fix): 버그 수정
-- [ ] refactor: 기능 변경 없이 코드 구조 변경
-- [ ] chore (maintain): 빌드, 패키지 매니저 설정 등 코드 수정이 없는 작업
-- [ ] style (formatting, missing semi colons, …): 코드 스타일 변경
-- [ ] build (npm, yarn, ...): 빌드 시스템 또는 외부 종속성 변경
-- [ ] test (when adding missing tests): 테스트 코드 추가 또는 기존 테스트 수정
-- [ ] docs (documentation): 문서 수정
-- [ ] ci: CI 구성파일 및 스크립트 변경
-- [ ] perf (performance): 성능 개선
-- [ ] revert: 이전 커밋 되돌리기
-
 ## What is the current behavior?
 
 <!-- 수정 중인 현재 동작을 설명하거나 관련된 이슈에 대한 링크를 추가해 주세요. -->
