@@ -17,11 +17,22 @@ class RAGRetriever:
     def load_documents(self) -> List[Document]:
         try:
             df = pd.read_csv(self.csv_path)
-            df = df.dropna(subset=["category", "input", "response"])
+            df = df.dropna(
+                subset=[
+                    "category",
+                    "request",
+                    "response",
+                ]
+            )
             return [
                 Document(
-                    page_content=row["input"],
-                    metadata={"category": row["category"], "response": row["response"]},
+                    page_content=row["request"],
+                    metadata={
+                        "category": row["category"],
+                        "user_info": row["user_info"],
+                        "agent_info": row["agent_info"],
+                        "response": row["response"],
+                    },
                 )
                 for _, row in df.iterrows()
             ]
@@ -46,19 +57,23 @@ class RAGRetriever:
             if not self.retriever:
                 raise ValueError("Retriever가 초기화되지 않았습니다.")
 
-            docs = self.retriever.get_relevant_documents(question)
+            docs = self.retriever.invoke(question)
             if not docs:
                 return {
-                    "category": "없음",
-                    "similar_input": question,
+                    "category": "",
+                    "user_info": "",
+                    "agent_info": "",
+                    "similar_input": "",
                     "response": "해당 질문에 대한 답변을 찾을 수 없습니다.",
                 }
 
             doc = docs[0]
             return {
-                "category": doc.metadata.get("category", "없음"),
+                "category": doc.metadata.get("category", ""),
+                "user_info": doc.metadata.get("user_info", ""),
+                "agent_info": doc.metadata.get("agent_info", ""),
                 "similar_input": doc.page_content,
-                "response": doc.metadata.get("response", "없음"),
+                "response": doc.metadata.get("response", ""),
             }
         except Exception as e:
             logger.error("쿼리 실행 중 에러 발생: %s", e)
@@ -71,10 +86,9 @@ retriever.setup_retriever(documents)
 
 
 @tool
-def retriever_tool(user_input: str) -> Dict:
+def manual_tool(user_input: str) -> Dict:
     """
-    사용자의 입력에 대해서 가장 유사한 Q/A 문서를 제공합니다.
-    사용자의 입력과 가장 유사한 응답이 같은 맥락이라면 해당 응답을 사용합니다.
+    모든 사용자의 입력에 대해 메뉴얼에서 가장 관련성 높은 답변을 찾아 반환합니다.
 
     Args:
         user_input (str): 사용자의 입력
@@ -82,8 +96,10 @@ def retriever_tool(user_input: str) -> Dict:
     Returns:
         Dict: {
             "category": str,
+            "user_info": str,
+            "agent_info": str,
             "similar_input": str,
-            "response": str
+            "response": str,
         }
     """
     return retriever.query(user_input)

@@ -5,6 +5,8 @@ from langchain_core.messages import AnyMessage, SystemMessage
 
 class AgentState(MessagesState):
     category: str
+    user_info: str
+    agent_info: str
 
 
 def initialize_state() -> AgentState:
@@ -14,6 +16,8 @@ def initialize_state() -> AgentState:
     return {
         "messages": messages,
         "category": "",
+        "user_info": "",
+        "agent_info": "",
     }
 
 
