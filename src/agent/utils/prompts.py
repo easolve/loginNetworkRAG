@@ -56,7 +56,8 @@ EXTRACTION_EXPERT = ChatPromptTemplate.from_messages(
 AGENT_PROMPT = PromptTemplate(
     input_variables=["messages", "manual", "info", "similar_input"],
     template="""
-당신은 고객 센터의 서비스원입니다. 예제 질문, 매뉴얼과 추가 정보를 참고하고 tool을 사용해서, 사용자의 질문에 정확한 답변하십시오.
+당신은 고객 센터의 서비스원입니다. 예제 질문, 추가 정보를 참고하고 tool을 사용해서, 메뉴얼대로 실행하십시오.
+메뉴얼대로 실행이 끝났다면 tool을 사용하지 말고 사용자에게 결과를 알려주십시오.
 만약 정보가 부족하다면 tool을 사용하지 말고 사용자에게 추가 정보를 요구하십시오.
 - '{similar_input}'은(는) 사용자의 질문과 같은거나 유사한 의도를 가진 예제 질문입니다. 
 - '{manual}'은(는) 사용자의 질문에 대해 행동을 가이드하는 메뉴얼입니다. 메뉴얼 대로 행동 후 사용자에게 답변하십시오.
