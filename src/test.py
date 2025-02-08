@@ -8,8 +8,8 @@ from typing import Optional
 
 # 개인정보 오류 관련 알림톡이 왔습니다. 운송장번호는 324234 이고 통관번호는 2345346이에요.
 # TEST: 디버그
-set_debug(True)
-set_verbose(True)
+set_debug(False)
+set_verbose(False)
 
 
 def main():

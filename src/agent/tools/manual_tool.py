@@ -30,6 +30,7 @@ class RAGRetriever:
                     metadata={
                         "category": row["category"],
                         "manual": row["manual"],
+                        "info" : row["info"],
                         "response": row["response"],
                     },
                 )
@@ -61,6 +62,7 @@ class RAGRetriever:
                 return {
                     "category": "",
                     "manual": "",
+                    "info": "",
                     "similar_input": "",
                     "response": "해당 질문에 대한 답변을 찾을 수 없습니다.",
                 }
@@ -70,6 +72,7 @@ class RAGRetriever:
                 "category": doc.metadata.get("category", ""),
                 "similar_input": doc.page_content,
                 "manual": doc.metadata.get("manual", ""),
+                "info": doc.metadata.get("info", ""),
                 "response": doc.metadata.get("response", ""),
             }
         except Exception as e:
@@ -95,6 +98,7 @@ def manual_tool(user_input: str) -> Dict:
         Dict: {
             "category": str,
             "manual": str,
+            "info": str,
             "similar_input": str,
             "response": str,
         }
