@@ -19,9 +19,11 @@ def main():
 
     while True:
         try:
-            question = input("질문을 입력하세요 (종료하려면 'q' 입력): ")
+            question = input("질문을 입력하세요 (종료하려면 'q' 입력): ").strip()
             if question.lower() == "q" or question.lower() == "quit":
                 break
+            if question == "":
+                continue
 
             res = graph.invoke(
                 {"messages": [HumanMessage(content=question)], "category": ""},

@@ -8,7 +8,7 @@ from langgraph.prebuilt import ToolNode
 
 tools = [
     # manual_tool,
-    # express_carrier_tool,
+    express_carrier_tool,
     # courier_delivery_tool,
     # company_info_tool,
     get_user_info,
