@@ -9,14 +9,14 @@ from typing import List, Dict
 
 
 class RAGRetriever:
-    def __init__(self, csv_path: str):
-        self.csv_path = csv_path
+    def __init__(self, path: str):
+        self.path = path
         self.embeddings = OpenAIEmbeddings()
         self.retriever = None
 
     def load_documents(self) -> List[Document]:
         try:
-            df = pd.read_csv(self.csv_path)
+            df = pd.read_csv(self.path)
             df = df.dropna(
                 subset=[
                     "category",
@@ -29,8 +29,7 @@ class RAGRetriever:
                     page_content=row["request"],
                     metadata={
                         "category": row["category"],
-                        "user_info": row["user_info"],
-                        "agent_info": row["agent_info"],
+                        "manual": row["manual"],
                         "response": row["response"],
                     },
                 )
@@ -61,8 +60,7 @@ class RAGRetriever:
             if not docs:
                 return {
                     "category": "",
-                    "user_info": "",
-                    "agent_info": "",
+                    "manual": "",
                     "similar_input": "",
                     "response": "해당 질문에 대한 답변을 찾을 수 없습니다.",
                 }
@@ -70,9 +68,8 @@ class RAGRetriever:
             doc = docs[0]
             return {
                 "category": doc.metadata.get("category", ""),
-                "user_info": doc.metadata.get("user_info", ""),
-                "agent_info": doc.metadata.get("agent_info", ""),
                 "similar_input": doc.page_content,
+                "manual": doc.metadata.get("manual", ""),
                 "response": doc.metadata.get("response", ""),
             }
         except Exception as e:
@@ -85,6 +82,7 @@ documents = retriever.load_documents()
 retriever.setup_retriever(documents)
 
 
+# TODO: retriever에서 request 부분만 user_input과 코사인 유사도 판별
 @tool
 def manual_tool(user_input: str) -> Dict:
     """
@@ -96,8 +94,7 @@ def manual_tool(user_input: str) -> Dict:
     Returns:
         Dict: {
             "category": str,
-            "user_info": str,
-            "agent_info": str,
+            "manual": str,
             "similar_input": str,
             "response": str,
         }

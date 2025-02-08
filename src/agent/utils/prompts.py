@@ -1,8 +1,9 @@
-from langchain_core.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate, ChatPromptTemplate
 
 SYSTEM_PROMPT = """당신은 통관, 특송 회사의 고객센터 챗봇입니다.
 반드시 메뉴얼을 기반으로 답변하여야 합니다."""
 
+# QUESTION: ChatPromptTemplate vs PromptTemplate
 
 QUERY_ANALYSIS_PROMPT = PromptTemplate(
     input_variables=["query"],
@@ -24,12 +25,39 @@ QUERY_ANALYSIS_PROMPT = PromptTemplate(
 사용자의 질문: {query}""",
 )
 
-AGENT_PROMPT = PromptTemplate(
-    input_variables=["messages", "agent_info", "user_info"],
-    template="""사용자의 질문에 대한 답변을 작성해야합니다.
-- '{agent_info}'는 tool_node를 사용하여 얻을 수 있는 정보입니다. 이 정보를 얻기 위해 관련된 툴을 사용하십시오.
-- '{user_info}'는 사용자의 요청을 처리하기 위해 앞으로 받아야할 사용자의 정보입니다. 이 정보를 얻기 위해 사용자에게 질문하십시오.
+QUERY_GRADE_PROMPT = PromptTemplate(
+    input_variables=["query", "similar_inputs"],
+    template="""당신은 사용자의 질문과 예제 질문이 얼마나 유사한지 평가하는 채점자입니다.  
+엄격한 테스트일 필요는 없습니다. 목표는 잘못된 검색 결과를 필터링하는 것입니다.  
+예제 질문에 사용자 질문과 관련된 키워드 또는 의미가 포함되어 있으면 관련성 있는 것으로 평가하십시오.  
+문서가 질문과 관련이 있는지 여부를 나타내기 위해 'yes' 또는 'hold', 'no'로 점수를 제공하십시오.
+'yes'는 문서와 질문이 같거나 굉장히 비슷한 의미를 가지고 있음을 나타냅니다.
+'hold'는 문서와 질문이 관련이 있거나 아래와 같은 질의 범주를 가짐을 나타냅니다.
+[개인정보, 세금, 출고, 미결, 검사, 원산지, 금지, 이사화물, 통관] 
+'no'는 의미도 같지 않으며 관련이 없음을 나타냅니다.
+- '{query}'는 사용자의 질문입니다.
+- '{similar_inputs}'는 사용자의 질문과 유사도를 비교할 예제 질문입니다.""",
+)
 
+EXTRACTION_EXPERT = ChatPromptTemplate.from_messages(
+    [
+        (
+            "system",
+            "You are an expert extraction algorithm. "
+            "Only extract relevant information from the text. "
+            "If you do not know the value of an attribute asked to extract, "
+            "return null for the attribute's value.",
+        ),
+        # Please see the how-to about improving performance with reference examples.
+        ("human", "{text}"),
+    ]
+)
+
+AGENT_PROMPT = PromptTemplate(
+    input_variables=["messages", "manual", "similar_input"],
+    template="""당신은 고객 센터의 서비스원입니다. 메뉴얼과 예제 질문을 참고하고 tool을 사용해서, 사용자의 질문에 정확한 답변하십시오. 만약 정보가 부족하다면 tool을 사용하지 말고 사용자에게 추가 정보를 요구하십시오.
+- '{similar_input}'은(는) 사용자의 질문과 같은거나 유사한 의도를 가진 예제 질문입니다. 
+- '{manual}'은(는) 사용자의 질문에 대해 행동을 가이드하는 메뉴얼입니다. 메뉴얼 대로 행동 후 사용자에게 답변하십시오.
 다음은 지금까지 사용자와의 대화 내용입니다:
 {messages}""",
 )
