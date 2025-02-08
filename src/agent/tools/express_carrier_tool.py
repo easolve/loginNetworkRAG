@@ -52,4 +52,5 @@ def express_carrier_tool(name: ExpressCourier) -> Dict:
             "Telephone": str,
         }
     """
+    print("--- express_carrier_tool ---")
     return CARRIER_INFO.get(name, {"email": "정보 없음", "Telephone": "정보 없음"})

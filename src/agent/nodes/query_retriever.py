@@ -1,6 +1,6 @@
 from src.agent.utils.prompts import SYSTEM_PROMPT
 from src.agent.utils.state import AgentState
-from src.agent.nodes.tool_node import manual_tool
+from src.agent.tools.manual_tool import manual_tool
 from langchain_core.messages import SystemMessage, AIMessage
 
 

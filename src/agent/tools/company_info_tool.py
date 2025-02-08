@@ -14,4 +14,5 @@ def company_info_tool() -> Dict:
             "Telephone": str,
         }
     """
+    print("--- company_info_tool ---")
     return {"email": "express@wscustoms.co.kr", "Telephone": "02-1234-5678"}

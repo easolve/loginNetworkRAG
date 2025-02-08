@@ -11,8 +11,8 @@ def cc_agent(state: AgentState):
     messages = "".join([str(m.content) for m in state["messages"] if isinstance(m.content, str)])
     model_with_tools = ChatOpenAI(model=MODEL, temperature=0).bind_tools(tools)
     chain = AGENT_PROMPT | model_with_tools
-    similar_val = state["similar_manual"]
-    res = chain.invoke({"messages": messages, "similar_input": similar_val["similar_input"], "manual": similar_val["manual"], "info": similar_val["info"]})
+    retrieved = state["similar_manual"]
+    res = chain.invoke({"messages": messages, "similar_input": retrieved["similar_input"], "manual": retrieved["manual"], "info": retrieved["info"]})
     return {"messages": [res]}
 
 
