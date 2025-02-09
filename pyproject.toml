@@ -1,7 +1,10 @@
 [project]
 name = "login-network-rag"
 version = "0.1.0"
-description = "Add your description here"
+authors = [
+    {name = "Aiden Ahn", email = "senugw0u@gmail.com"},
+]
+description = "Login Network RAG Project"
 readme = "README.md"
 requires-python = ">=3.13.1"
 dependencies = [
@@ -14,7 +17,11 @@ dependencies = [
     "ipython>=8.32.0",
     "streamlit>=1.42.0",
     "pre-commit>=4.1.0",
+    "pytest>=8.3.4",
 ]
+
+[tool.uv]
+packages = ["src"]
 
 [tool.black]
 target-version = ['py313']
@@ -41,3 +48,7 @@ max-complexity = 10
 
 [tool.isort]
 atomic = true
+
+[tool.pytest.ini_options]
+pythonpath = "."
+testpaths = "tests"
