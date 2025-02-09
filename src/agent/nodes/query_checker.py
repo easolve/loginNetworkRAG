@@ -23,7 +23,6 @@ def query_checker(state: AgentState):
 
     checker = QUERY_GRADE_PROMPT | structured_llm_grader
 
-    # TODO: 현재는 모든 메시지를 합쳐서 전달하고 있음. 이후에는 요약된 메시지만 전달하도록 수정 필요.
     query = state["messages"][-1].content
     similar_inputs = state["similar_manual"]["similar_input"]
     res = checker.invoke({"query": query, "similar_inputs": similar_inputs})

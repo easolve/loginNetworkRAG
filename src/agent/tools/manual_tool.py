@@ -1,12 +1,13 @@
+import os
 from typing import Dict, List
 
 import pandas as pd
 from langchain.schema import Document
 from langchain.tools import tool
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
 
-from agent.utils.constants import CSV_PATH
+from agent.utils.constants import CSV_PATH, PERSIST_DIRECTORY
 from agent.utils.logger import logger
 
 
@@ -14,18 +15,12 @@ class RAGRetriever:
     def __init__(self, path: str):
         self.path = path
         self.embeddings = OpenAIEmbeddings()
-        self.retriever = None
+        self.vectorstore = None
 
     def load_documents(self) -> List[Document]:
         try:
             df = pd.read_csv(self.path)
-            df = df.dropna(
-                subset=[
-                    "category",
-                    "request",
-                    "response",
-                ]
-            )
+            df = df.dropna(subset=["category", "request", "response"])
             return [
                 Document(
                     page_content=row["request"],
@@ -43,39 +38,55 @@ class RAGRetriever:
             raise
 
     def setup_retriever(self, docs: List[Document]) -> None:
+        """
+        persist directory에 저장된 벡터스토어가 있다면 재사용하고,
+        없을 경우 새로 생성하여 저장합니다.
+        """
         try:
-            vectorstore = Chroma.from_documents(
-                documents=docs,
-                collection_name="rag-chroma",
-                embedding=self.embeddings,
-            )
-            self.retriever = vectorstore.as_retriever(search_kwargs={"k": 1})
+            if os.path.exists(PERSIST_DIRECTORY) and os.listdir(PERSIST_DIRECTORY):
+                print(f"기존 벡터스토어 로드 중: {PERSIST_DIRECTORY}")
+                self.vectorstore = Chroma(
+                    persist_directory=PERSIST_DIRECTORY,
+                    embedding_function=self.embeddings,
+                    collection_name="rag-chroma",
+                )
+            else:
+                print("새 벡터스토어 생성 중...")
+                self.vectorstore = Chroma.from_documents(
+                    documents=docs,
+                    collection_name="rag-chroma",
+                    embedding=self.embeddings,
+                    persist_directory=PERSIST_DIRECTORY,
+                )
         except Exception as e:
-            logger.error("리트리버 설정 중 에러 발생: %s", e)
+            logger.error("ChromaDB 설정 중 에러 발생: %s", e)
             raise
 
     def query(self, question: str) -> Dict:
         try:
-            if not self.retriever:
-                raise ValueError("Retriever가 초기화되지 않았습니다.")
+            if not self.vectorstore:
+                raise ValueError("ChromaDB가 설정되지 않았습니다.")
 
-            docs = self.retriever.invoke(question)
-            if not docs:
+            docs_with_scores = self.vectorstore.similarity_search_with_score(query=question, k=1)
+            if not docs_with_scores:
                 return {
                     "category": "",
                     "manual": "",
                     "info": "",
                     "similar_input": "",
                     "response": "해당 질문에 대한 답변을 찾을 수 없습니다.",
+                    "score": 0,
                 }
 
-            doc = docs[0]
+            # score는 코사인 거리이므로 1에서 빼줘야 유사도가 높은 문서일수록 점수가 높아짐
+            doc, score = docs_with_scores[0]
             return {
                 "category": doc.metadata.get("category", ""),
                 "similar_input": doc.page_content,
                 "manual": doc.metadata.get("manual", ""),
                 "info": doc.metadata.get("info", ""),
                 "response": doc.metadata.get("response", ""),
+                "score": round(1 - score, 4),
             }
         except Exception as e:
             logger.error("쿼리 실행 중 에러 발생: %s", e)
@@ -104,6 +115,10 @@ def manual_tool(user_input: str) -> Dict:
             "info": str,
             "similar_input": str,
             "response": str,
+            "score": float,
         }
     """
-    return retriever.query(user_input)
+    res = retriever.query(user_input)
+    if res["score"] < 0.7:
+        res["response"] = "해당 질문에 대한 답변을 찾을 수 없습니다."
+    return res

@@ -6,10 +6,6 @@
 - [x] [msw 가짜 운송장 번호 만들기](https://tracker.delivery/docs/dummy-tracking-number)
 - [x] 스트림릿으로 ChatUI 만들기
 - [ ] 대화 내용 요약
-- [ ] SQLite 추가
-  - [ ] 사용자 정보 저장
-  - [ ] 회사 정보 저장
-  - [ ] 대화 내용 저장
 - [ ] 랭그래프 공부
   - [ ] 책 읽기
   - [ ] [QuickStart 이해하기](https://langchain-ai.github.io/langgraph/tutorials/introduction/)
@@ -17,6 +13,7 @@
   - [ ] [대화 내용 요약](https://github.com/langchain-ai/langchain/discussions/25904?utm_source=pocket_shared)
   - [ ] [컨셉](https://langchain-ai.github.io/langgraph/concepts/)
   - [ ] [리듀서](https://langchain-ai.github.io/langgraph/concepts/low_level/#default-reducer)
+  - [ ] [ChromaDB](https://api.python.langchain.com/en/latest/chroma/vectorstores/langchain_chroma.vectorstores.Chroma.html)
   - [ ] [](https://langchain-ai.github.io/langgraph/concepts/persistence/)
   - [ ] [](https://langchain-ai.github.io/langgraph/concepts/low_level/)
   - [ ] [](https://langchain-ai.github.io/langgraph/how-tos/configuration/)

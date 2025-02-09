@@ -2,6 +2,7 @@ from langchain_core.messages import RemoveMessage
 from langchain_openai import ChatOpenAI
 
 from agent.utils.constants import MODEL
+from agent.utils.parse import message_to_text
 from agent.utils.prompts import SUMMARIZE_PROMPT
 from agent.utils.state import AgentState
 
@@ -12,8 +13,9 @@ def summarizer(state: AgentState):
     if len(state["messages"]) > 10:
         llm = ChatOpenAI(model=MODEL, temperature=0)
         chain = SUMMARIZE_PROMPT | llm
-        res = chain.invoke({"conversation": "".join([str(msg.content) for msg in messages])})
+        conversation = message_to_text(messages)
+        res = chain.invoke({"conversation": conversation})
         return {
-            "messages": [RemoveMessage(id=m.id) for m in messages[:-3] if m.id is not None],
+            "messages": [RemoveMessage(id=m.id) for m in messages[:-3]],
             "summary": res.content,
         }

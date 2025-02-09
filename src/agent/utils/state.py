@@ -11,9 +11,7 @@ class AgentState(MessagesState):
     mode: Mode
     summary: str
     similar_manual: Dict[str, Any]
-    category: str
-    user_info: str
-    agent_info: str
+    known_info: Dict[str, Any]
 
 
 def initialize_state() -> AgentState:
@@ -24,10 +22,8 @@ def initialize_state() -> AgentState:
         "mode": Mode.KNOWLEDGE,
         "summary": "",
         "similar_manual": {},
+        "known_info": {},
         "messages": messages,
-        "category": "",
-        "user_info": "",
-        "agent_info": "",
     }
 
 

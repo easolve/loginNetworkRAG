@@ -17,4 +17,4 @@ def send_message_tool(message: str) -> Dict:
         }
     """
     print(f"메시지 내용: {message}")
-    return {"success": True}
+    return {"success": True, "response": "메시지 전송 완료"}

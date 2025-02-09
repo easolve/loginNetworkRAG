@@ -46,7 +46,7 @@ def main():
             with st.chat_message("assistant"):
                 with st.spinner("답변을 생성하고 있습니다..."):
                     res = st.session_state.graph.invoke(
-                        {"messages": [HumanMessage(content=prompt)], "category": ""},
+                        {"messages": [HumanMessage(content=prompt)]},
                         config,
                         stream_mode="values",
                     )

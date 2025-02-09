@@ -129,9 +129,10 @@ disable=R,
         wrong-import-order,
         xrange-builtin,
         zip-builtin-not-iterating,
-        C0114,  # missing-module-docstring
-        C0115,  # missing-class-docstring
-        W0718,  # broad-exception-caught
+        C0114, # missing-module-docstring
+        C0115, # missing-class-docstring
+        W0718, # broad-exception-caught
+        C0301, # line-too-long
 
 
 [REPORTS]

@@ -18,6 +18,7 @@ _set_env("MODEL")
 
 MODEL = os.environ["MODEL"]
 CSV_PATH = "./data/manual.csv"
+PERSIST_DIRECTORY = "./chroma_db"
 
 
 class Category(str, Enum):
