@@ -17,6 +17,27 @@ dependencies = [
 ]
 
 [tool.black]
-line-length = 100
 target-version = ['py313']
+line-length = 100
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+| \.hg
+| \.mypy_cache
+| \.tox
+| \.venv
+| _build
+| buck-out
+| build
+)/
+'''
 preview = true
+
+[tool.flake8]
+max-line-length = 100
+exclude = [".git", "__pycache__", "dist"]
+max-complexity = 10
+
+[tool.isort]
+atomic = true
