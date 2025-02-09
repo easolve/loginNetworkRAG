@@ -9,14 +9,17 @@ def customs_broker_tool() -> Dict:
     관세 정보를 제공합니다.
 
     Returns:
-        Dict: {
-            "category": str,
-            "input": str,
-            "response": str
-        }
+      Dict: {
+        "response": str,
+        "customs_data": Dict
+      }
     """
-    return {
-        "category": "통관",
-        "input": "통관 정보",
-        "response": "통관 정보를 제공합니다.",
+    fake_customs_data = {
+        "item": "전자제품",
+        "value": "1000 USD",
+        "duty": "5%",
+        "tax": "10%",
+        "total_cost": "1150 USD",
     }
+
+    return {"response": "통관 정보를 제공합니다.", "customs_data": fake_customs_data}

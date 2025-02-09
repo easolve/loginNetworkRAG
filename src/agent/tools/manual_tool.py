@@ -120,5 +120,12 @@ def manual_tool(user_input: str) -> Dict:
     """
     res = retriever.query(user_input)
     if res["score"] < 0.7:
-        res["response"] = "해당 질문에 대한 답변을 찾을 수 없습니다."
+        return {
+            "category": "",
+            "manual": "",
+            "info": "",
+            "similar_input": "",
+            "response": "해당 질문에 대한 답변을 찾을 수 없습니다.",
+            "score": 0,
+        }
     return res
