@@ -1,4 +1,4 @@
-from src.agent.utils.prompts import SYSTEM_PROMPT
+from agent.utils.prompts import SYSTEM_PROMPT
 from langgraph.graph import MessagesState
 from langchain_core.messages import AnyMessage, SystemMessage
 from typing import Dict, Any

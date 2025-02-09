@@ -1,5 +1,5 @@
-from src.agent.utils.logger import logger
-from src.agent.utils.constants import CSV_PATH
+from agent.utils.logger import logger
+from agent.utils.constants import CSV_PATH
 from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
 from langchain.schema import Document
@@ -30,7 +30,7 @@ class RAGRetriever:
                     metadata={
                         "category": row["category"],
                         "manual": row["manual"],
-                        "info" : row["info"],
+                        "info": row["info"],
                         "response": row["response"],
                     },
                 )
@@ -89,7 +89,8 @@ retriever.setup_retriever(documents)
 @tool
 def manual_tool(user_input: str) -> Dict:
     """
-    모든 사용자의 입력에 대해 메뉴얼에서 가장 관련성 높은 답변을 찾아 반환합니다.
+    모든 사용자의 입력을 응대 메뉴얼에서 가장 관련성 높은 답변을 찾아 반환합니다.
+    질문의 내용이 확실하지 않다면 메뉴얼을 참고하여 질문을 재정의합니다.
 
     Args:
         user_input (str): 사용자의 입력
