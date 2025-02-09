@@ -1,7 +1,8 @@
-from agent.tools.get_user_info_tool import UserInfo
 from typing import Dict
 
 from langchain.tools import tool
+
+from agent.tools.get_user_info_tool import UserInfo
 
 
 @tool

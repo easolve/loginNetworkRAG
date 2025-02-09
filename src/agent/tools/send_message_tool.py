@@ -1,5 +1,7 @@
-from langchain.tools import tool
 from typing import Dict
+
+from langchain.tools import tool
+
 
 @tool
 def send_message_tool(message: str) -> Dict:
@@ -12,7 +14,7 @@ def send_message_tool(message: str) -> Dict:
     Returns:
         Dict: {
             "success": bool,
-        } 
+        }
     """
     print(f"메시지 내용: {message}")
     return {"success": True}

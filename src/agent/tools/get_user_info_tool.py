@@ -1,11 +1,11 @@
 from typing import Optional
+
+from langchain.tools import tool
+from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, Field
 
 from agent.utils.constants import MODEL
 from agent.utils.prompts import EXTRACTION_EXPERT
-
-from langchain.tools import tool
-from langchain_openai import ChatOpenAI
 
 
 # https://python.langchain.com/docs/tutorials/extraction/

@@ -1,7 +1,8 @@
-from getpass import getpass
-from enum import Enum
-from dotenv import load_dotenv
 import os
+from enum import Enum
+from getpass import getpass
+
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -32,3 +33,8 @@ class Category(str, Enum):
     CUSTOMS_CLEARANCE = "통관"
     ETC = "기타"
     PENDING_JUDGMENT = "판단 보류"
+
+
+class Mode(str, Enum):
+    TASK = "task"
+    KNOWLEDGE = "knowledge"

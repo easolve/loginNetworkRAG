@@ -1,5 +1,7 @@
-from langchain.tools import tool
 from typing import Dict
+
+from langchain.tools import tool
+
 
 @tool
 def get_deposit_details_tool() -> Dict:
@@ -10,7 +12,7 @@ def get_deposit_details_tool() -> Dict:
     Returns:
         Dict: {
             "success": bool,
-        } 
+        }
     """
     print("--- get_deposit_details_tool ---")
     return {"success": True}

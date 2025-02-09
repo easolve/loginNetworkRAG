@@ -1,4 +1,4 @@
-from langchain_core.prompts import PromptTemplate, ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
 
 SYSTEM_PROMPT = """당신은 통관, 특송 회사의 고객센터 챗봇입니다.
 반드시 메뉴얼을 기반으로 답변하여야 합니다.
@@ -39,7 +39,23 @@ QUERY_GRADE_PROMPT = PromptTemplate(
 [개인정보, 세금, 출고, 미결, 검사, 원산지, 금지, 이사화물, 통관]
 'no'는 의미도 같지 않으며 관련이 없음을 나타냅니다.
 - '{query}'는 사용자의 질문입니다.
-- '{similar_inputs}'는 사용자의 질문과 유사도를 비교할 예제 질문입니다.""",
+- '{similar_inputs}'는 사용자의 질문과 유사도를 비교할 예제 질문입니다.
+""",
+)
+
+SUMMARIZE_PROMPT = PromptTemplate(
+    input_variables=["conversation"],
+    template="""지금까지의 대화 내용을 요약하십시오. 요약은 다음 대화를 이어가는데 필요한 중요한 정보만 포함해야 합니다.
+요약에는 다음과 같은 내용이 포함되어야 합니다:
+1. 사용자의 주요 문의 사항
+2. 확인된 사용자 정보 (있는 경우)
+3. 지금까지 제공된 주요 답변이나 안내 사항
+4. 아직 해결되지 않은 사항 (있는 경우)
+
+대화 내용:
+{conversation}
+
+요약본을 생성하십시오.""",
 )
 
 EXTRACTION_EXPERT = ChatPromptTemplate.from_messages(
@@ -56,15 +72,22 @@ EXTRACTION_EXPERT = ChatPromptTemplate.from_messages(
     ]
 )
 
-AGENT_PROMPT = PromptTemplate(
+KNOWLEDGE_AGENT_PROMPT = PromptTemplate(
     input_variables=["messages", "manual", "info", "similar_input"],
     template="""
-당신은 고객 센터의 서비스원입니다. 예제 질문, 추가 정보를 참고하고 tool을 사용해서, 메뉴얼대로 실행하십시오.
+당신은 고객 센터의 서비스원입니다. 현재까지의 대화 내용, 예제 질문, 추가 정보를 참고하고 tool을 사용해서, 메뉴얼대로 실행하십시오.
 메뉴얼대로 실행이 끝났다면 tool을 사용하지 말고 사용자에게 결과를 알려주십시오.
 만약 정보가 부족하다면 tool을 사용하지 말고 사용자에게 추가 정보를 요구하십시오.
 - '{similar_input}'은(는) 사용자의 질문과 같은거나 유사한 의도를 가진 예제 질문입니다.
 - '{manual}'은(는) 사용자의 질문에 대해 행동을 가이드하는 메뉴얼입니다. 메뉴얼 대로 행동 후 사용자에게 답변하십시오.
 - '{info}'은(는) 사용자의 질문에 대한 추가 정보입니다.
 다음은 지금까지 사용자와의 대화 내용입니다:
+{messages}""",
+)
+
+TASK_AGENT_PROMPT = PromptTemplate(
+    input_variables=["messages"],
+    template="""
+다은은 지금까지 사용자와의 대화 내용입니다:
 {messages}""",
 )

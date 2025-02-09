@@ -1,11 +1,12 @@
+from langchain_core.messages import AIMessage
+from langchain_openai import ChatOpenAI
+from langgraph.graph import END
+from langgraph.types import Command
+from pydantic import BaseModel, Field
+
+from agent.utils.constants import MODEL, Mode
 from agent.utils.prompts import QUERY_GRADE_PROMPT
 from agent.utils.state import AgentState
-from langchain_openai import ChatOpenAI
-from langchain_core.messages import AIMessage
-from langgraph.types import Command
-from langgraph.graph import END
-
-from pydantic import BaseModel, Field
 
 
 class GradeDocuments(BaseModel):
@@ -17,18 +18,18 @@ class GradeDocuments(BaseModel):
 
 # similar_manual.similar_input과 함께 질문을 OpenAI에 전달해 의미가 같은지 판단.
 def query_checker(state: AgentState):
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    llm = ChatOpenAI(model=MODEL, temperature=0)
     structured_llm_grader = llm.with_structured_output(GradeDocuments)
 
     checker = QUERY_GRADE_PROMPT | structured_llm_grader
 
-    # TODO: 이전의 문맥도 같이 보내서 의미가 같은지 판단할 수 있도록 해야 함.(요약 or 전문)
+    # TODO: 현재는 모든 메시지를 합쳐서 전달하고 있음. 이후에는 요약된 메시지만 전달하도록 수정 필요.
     query = state["messages"][-1].content
     similar_inputs = state["similar_manual"]["similar_input"]
     res = checker.invoke({"query": query, "similar_inputs": similar_inputs})
     print(f"query: {query}, similar: {similar_inputs} score: {res.score}")
     if res.score == "yes":
-        return Command(goto="cc_agent")
+        return {"mode": Mode.KNOWLEDGE}
     elif res.score == "hold":
         # TODO: 전문 상담사 호출 node 추가
         return Command(
@@ -36,4 +37,4 @@ def query_checker(state: AgentState):
             update={"messages": AIMessage(content="전문 상담사를 호출하고 질의를 끝내겠습니다.")},
         )
     else:
-        return Command(goto=END, update={"messages": AIMessage(content="검색 결과가 없습니다.")})
+        return {"mode": Mode.TASK}

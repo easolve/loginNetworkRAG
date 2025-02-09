@@ -1,6 +1,7 @@
-from langchain.tools import tool
-from typing import Dict
 from enum import Enum
+from typing import Dict
+
+from langchain.tools import tool
 
 
 class ExpressCourier(Enum):

@@ -1,5 +1,7 @@
-from langchain.tools import tool
 from typing import Dict
+
+from langchain.tools import tool
+
 
 @tool
 def connect_manager_tool() -> Dict:
@@ -10,7 +12,7 @@ def connect_manager_tool() -> Dict:
     Returns:
         Dict: {
             "success": bool,
-        } 
+        }
     """
     print("--- connect_manager_tool ---")
     return {"success": True}
