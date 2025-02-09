@@ -1,5 +1,5 @@
-from src.agent.utils.logger import logger
-from src.agent.utils.constants import CSV_PATH
+from agent.utils.logger import logger
+from agent.utils.constants import CSV_PATH
 from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
 from langchain.schema import Document

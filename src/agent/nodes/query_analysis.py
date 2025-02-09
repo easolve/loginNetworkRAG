@@ -1,6 +1,6 @@
-from src.agent.utils.constants import Category, MODEL
-from src.agent.utils.prompts import SYSTEM_PROMPT, QUERY_ANALYSIS_PROMPT
-from src.agent.utils.state import AgentState
+from agent.utils.constants import Category, MODEL
+from agent.utils.prompts import SYSTEM_PROMPT, QUERY_ANALYSIS_PROMPT
+from agent.utils.state import AgentState
 from langchain_core.messages import SystemMessage
 from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, Field
