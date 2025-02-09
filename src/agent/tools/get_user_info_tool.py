@@ -1,8 +1,8 @@
 from typing import Optional
 from pydantic import BaseModel, Field
 
-from src.agent.utils.constants import MODEL 
-from src.agent.utils.prompts import EXTRACTION_EXPERT
+from agent.utils.constants import MODEL
+from agent.utils.prompts import EXTRACTION_EXPERT
 
 from langchain.tools import tool
 from langchain_openai import ChatOpenAI
@@ -18,6 +18,7 @@ class UserInfo(BaseModel):
     phone_num: Optional[str] = Field(description="사용자의 전화번호.")
     email: Optional[str] = Field(description="사용자의 이메일 주소.")
 
+
 @tool
 def get_user_info_tool(query: str) -> UserInfo:
     """
@@ -29,6 +30,3 @@ def get_user_info_tool(query: str) -> UserInfo:
     res = structured_llm.invoke(prompt)
     print("--- get_user_info_tool ---")
     return res
-    
-
-    
