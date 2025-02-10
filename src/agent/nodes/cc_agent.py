@@ -16,6 +16,7 @@ def cc_agent(state: AgentState):
         {
             "messages": messages,
             "similar_input": retrieved.get("similar_input", "없음"),
+            "response": retrieved.get("response", "없음"),
             "manual": retrieved.get("manual", "없음"),
             "info": retrieved.get("info", "없음"),
         }

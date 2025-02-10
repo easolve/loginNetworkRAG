@@ -6,8 +6,6 @@ SYSTEM_PROMPT = """당신은 통관, 특송 회사의 고객센터 한국어 챗
 당신의 답에 공란이 있다면 그 공란을 사용하여 답변을 하는 것이 아니라 도구를 사용하여 정보를 얻거나 사용자에게 질문하여 정보를 얻어야 합니다.
 """
 
-# QUESTION: ChatPromptTemplate vs PromptTemplate
-
 QUERY_ANALYSIS_PROMPT = PromptTemplate(
     input_variables=["query"],
     template="""사용자의 질문이 어떤 질의 범주에 속하는지 분류하십시오.
@@ -58,6 +56,8 @@ SUMMARIZE_PROMPT = PromptTemplate(
 요약본을 생성하십시오.""",
 )
 
+# QUESTION: ChatPromptTemplate vs PromptTemplate
+
 EXTRACTION_EXPERT = ChatPromptTemplate.from_messages(
     [
         (
@@ -73,21 +73,38 @@ EXTRACTION_EXPERT = ChatPromptTemplate.from_messages(
 )
 
 KNOWLEDGE_AGENT_PROMPT = PromptTemplate(
-    input_variables=["messages", "manual", "info", "similar_input"],
-    template="""현재까지의 대화 내용, 예제 질문, 추가 정보를 참고하고 tool을 사용해서, 메뉴얼대로 실행하십시오.
-메뉴얼대로 실행이 끝났다면 tool을 사용하지 말고 사용자에게 결과를 알려주십시오.
-만약 정보가 부족하다면 tool을 사용하지 말고 사용자에게 추가 정보를 요구하십시오.
-대화에서 같은 내용이 반복된다면, 도구를 더 이상 호출하지 않고 결과를 사용자에게 알려주십시오.
-- 사용자의 질문과 같거나 유사한 의도를 가진 질문: '{similar_input}'
-- 메뉴얼 대로 행동 후 사용자에게 답변하십시오. 사용자의 질문에 대해 행동을 가이드하는 메뉴얼: '{manual}'
-- 사용자의 질문에 대한 추가 정보: '{info}'
-다음은 지금까지 사용자와의 대화 내용입니다:
-{messages}""",
+    input_variables=["messages", "manual", "info", "similar_input", "response"],
+    template="""<instruction>
+아래의 내용을 참고하고 tool을 사용해서, 'manual'대로 실행하십시오.
+- 'conversation': 현재까지의 대화 내용
+- 'similar_input': 사용자의 질문과 같거나 유사한 의도를 가진 질문
+- 'response': 'similar_input'에 대한 답변
+- 'info': 사용자의 질문에 대한 추가 정보
+- 'manual': 사용자의 질문에 대한 답변을 참고할 수 있는 메뉴얼
+'manual'대로 실행이 끝났다면 tool을 사용하지 말고 사용자에게 결과를 알려주십시오.
+만약 정보가 부족하다면 tool을 사용하지 말고 사용자에게 'info'를 요구하십시오.
+**대화에서 같은 내용이 반복된다면, tool을 더 이상 호출하지 않고 결과를 사용자에게 알려주십시오.**
+</instruction>
+
+<task_description>
+## similar_input:
+{similar_input}
+## response:
+{response}
+## manual:
+{manual}
+## info:
+{info}
+</task_description>
+
+<conversation>
+{messages}
+</conversation>""",
 )
 
 TASK_AGENT_PROMPT = PromptTemplate(
     input_variables=["messages"],
     template="""
-다은은 지금까지 사용자와의 대화 내용입니다:
+다음은 사용자와의 대화 내용입니다:
 {messages}""",
 )

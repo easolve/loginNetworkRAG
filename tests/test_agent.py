@@ -38,6 +38,7 @@ def test_error_handling(test_graph):
 def test_predefined_questions(test_graph):
     """미리 정의된 질문들에 대한 응답을 테스트합니다."""
     test_cases = [
+        "개인정보 오류 관련해서 알림톡 받았는데 확인해주세요",
         "수하인 변경 문의 ex) 이름을 변경하고 싶어요.",
         "화물 진행 정보 문의 ex) 물품이 국내에 도착했다고 하는데 진행 상황을 알고 싶어요.",
         "연락처 변경 요청 ex) 연락처를 변경하고 싶어요.",
