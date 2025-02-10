@@ -101,10 +101,3 @@ KNOWLEDGE_AGENT_PROMPT = PromptTemplate(
 {messages}
 </conversation>""",
 )
-
-TASK_AGENT_PROMPT = PromptTemplate(
-    input_variables=["messages"],
-    template="""
-다음은 사용자와의 대화 내용입니다:
-{messages}""",
-)
