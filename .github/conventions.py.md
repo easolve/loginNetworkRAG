@@ -11,7 +11,12 @@
 ## Git Convention
 
 - 깃 브랜치 전략은 [GitFlow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)를 따르며 이를 기반으로 한 브랜치 네이밍 컨벤션을 사용합니다.
-- 브랜치 네이밍 형식: `type/[description]-[issue]`
+- 브랜치 네이밍 형식: `type/[branch/]description[-#issue]`
+  - [] 안의 내용은 선택 사항입니다.
+  - `type`: 브랜치 타입
+  - `branch`: 분기한 브랜치명 (e.g. `dev`, `main`)
+  - `description`: 브랜치 설명
+  - `issue`: 관련된 이슈 번호
 
 ### Branch Type Description
 

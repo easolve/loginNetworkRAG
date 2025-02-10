@@ -1,22 +1,8 @@
-import os
 from enum import Enum
-from getpass import getpass
 
-from dotenv import load_dotenv
+import streamlit as st
 
-load_dotenv()
-
-
-def _set_env(var: str):
-    if not os.environ.get(var):
-        os.environ[var] = getpass(f"Please enter your {var}: ")
-
-
-_set_env("OPENAI_API_KEY")
-_set_env("MODEL")
-
-
-MODEL = os.environ["MODEL"]
+MODEL = st.secrets["MODEL"]
 CSV_PATH = "./data/manual.csv"
 PERSIST_DIRECTORY = "./chroma_db"
 
