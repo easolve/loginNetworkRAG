@@ -1,3 +1,4 @@
+# NOTE: Streamlit Cloud에서 실행하기 위해 필요합니다.
 # flake8: noqa
 # pylint: disable=C0413
 
