@@ -57,8 +57,3 @@ CARRIER_INFO = {
         "Telephone": "02-2038-7224",
     },
 }
-
-
-class Mode(str, Enum):
-    TASK = "task"
-    KNOWLEDGE = "knowledge"

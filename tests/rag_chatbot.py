@@ -2,9 +2,12 @@ import os
 from typing import Dict, List
 
 import pandas as pd
+from dotenv import load_dotenv
 from langchain.schema import Document
 from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
+
+load_dotenv()
 
 # -------------------- 상수 및 설정 --------------------
 # CSV 파일 경로 (실제 CSV 파일 위치에 맞게 수정하세요)

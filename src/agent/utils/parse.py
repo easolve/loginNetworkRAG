@@ -13,7 +13,7 @@ def message_to_text(messages: list[AnyMessage]) -> str:
     text = ""
 
     for message in messages:
-        if not isinstance(message.content, str):
+        if not isinstance(message.content, str) or not message.content:
             continue
         if isinstance(message, HumanMessage):
             text += f"user: {message.content}\n"
@@ -32,7 +32,21 @@ if __name__ == "__main__":
         HumanMessage("Hello!"),
         AIMessage("Hi! How can I help you today?"),
         HumanMessage("I need help with my computer."),
-        AIMessage("Sure! What seems to be the problem?"),
+        AIMessage(
+            content="",
+            tool_calls=[
+                {
+                    "name": "search",
+                    "args": {"query": "computer troubleshooting"},
+                    "id": "search1",
+                    "type": "tool_call",
+                }
+            ],
+        ),
+        ToolMessage(
+            content="Here are some resources to help you troubleshoot your computer.",
+            tool_call_id="search1",
+        ),
     ]
 
-    print(message_to_text(test_messages))
+    print(message_to_text(test_messages), end="")

@@ -2,7 +2,7 @@
 
 ## 개발
 
-- [ ] 테스트 환경 구성: 각 모듈에 `if __name__ == '__main__'`: 추가하여 테스트 가능한 환경 구성
+- [x] 테스트 환경 구성: 각 모듈에 `if __name__ == '__main__'`: 추가하여 테스트 가능한 환경 구성
 - [x] [msw 가짜 운송장 번호 만들기](https://tracker.delivery/docs/dummy-tracking-number)
 - [x] 스트림릿으로 ChatUI 만들기
 - [ ] 대화 내용 요약

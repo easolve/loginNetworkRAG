@@ -14,4 +14,5 @@ def query_retriever(state: AgentState):
     # 질문과 가장 가까운 매뉴얼을 찾아서 반환
     if isinstance(messages[-1].content, str):
         similar_manual = manual_tool(messages[-1].content)
-        return {"similar_manual": similar_manual}
+        if similar_manual.get("score", 0) != 0:
+            return {"similar_manual": similar_manual}
