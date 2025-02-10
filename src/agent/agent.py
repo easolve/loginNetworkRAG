@@ -12,13 +12,10 @@ from agent.utils.state import AgentState
 def get_graph() -> CompiledStateGraph:
     builder = StateGraph(AgentState)
     builder.add_node("query_retriever", query_retriever)
-    # builder.add_node("query_checker", query_checker)
     builder.add_node("cc_agent", cc_agent)
     builder.add_node("tools", tool_node)
 
     builder.add_edge(START, "query_retriever")
-    # builder.add_edge("query_retriever", "query_checker")
-    # builder.add_edge("query_checker", "cc_agent")
     builder.add_edge("query_retriever", "cc_agent")
     builder.add_conditional_edges("cc_agent", tools_condition, ["tools", END])
     builder.add_edge("tools", "cc_agent")
