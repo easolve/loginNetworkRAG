@@ -64,7 +64,6 @@ langgraph==0.2.69
 langgraph-checkpoint==2.0.10
 langgraph-sdk==0.1.51
 langsmith==0.3.4
--e file:///Users/anseungwon/dev/1-project/login-network-rag
 markdown-it-py==3.0.0
 markupsafe==3.0.2
 matplotlib-inline==0.1.7
