@@ -9,5 +9,11 @@ uv sync
 ## Usage
 
 ```bash
-uv run python -m src.main
+uv run streamlit run src/main.py
+```
+
+## Test
+
+```bash
+uv run pytest
 ```

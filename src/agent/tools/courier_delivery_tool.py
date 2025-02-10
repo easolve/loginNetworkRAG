@@ -1,8 +1,9 @@
-from langchain.tools import tool
-from typing import Dict
-from os import getenv
-import requests
 from datetime import datetime, timezone
+from os import getenv
+from typing import Dict
+
+import requests
+from langchain.tools import tool
 
 
 @tool
@@ -26,7 +27,7 @@ def courier_delivery_tool(waybill_number: str) -> Dict:
         url="https://apis.tracker.delivery/graphql",
         headers={
             "Authorization": (
-                f"TRACKQL-API-KEY {getenv('TRACKQL_CLIENT_ID')}:{getenv('TRACKQL_CLIENT_SECRET')}"
+                f"TRACKQL-API-KEY {getenv("TRACKQL_CLIENT_ID")}:{getenv("TRACKQL_CLIENT_SECRET")}"
             ),
         },
         json={

@@ -50,6 +50,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+res.md
 
 # Translations
 *.mo
@@ -188,4 +189,6 @@ cython_debug/
 
 # Miscellaneous files
 *.db
+*.sqlite3
+*.bin
 *.png
