@@ -25,14 +25,14 @@ from src.agent.agent import get_graph
 
 
 def _get_file_name():
-    file_name = "test_0.md"
+    i = 0
+    file_name = f"tests/test_{i}.md"
     file_exists = os.path.exists(file_name)
-    file_num = 0
 
     while file_exists:
-        file_name = f"test_{file_num}.md"
+        file_name = f"tests/test_{i}.md"
         file_exists = os.path.exists(file_name)
-        file_num += 1
+        i += 1
 
     return file_name
 
@@ -118,12 +118,12 @@ def test_predefined_questions(test_graph):
     ]
 
     file_name = _get_file_name()
-    number_of_questions = 1
+    i = 1
     with open(file_name, "w", encoding="utf-8") as f:
         f.write("# test_predefined_questions")
         for question in test_cases:
             input_data = {"messages": [HumanMessage(content=question)]}
-            config = {"configurable": {"thread_id": f"test-{question[:10]}"}}
+            config = {"configurable": {"thread_id": f"{i}"}}
 
             result = test_graph.invoke(input_data, config)
 
@@ -134,9 +134,9 @@ def test_predefined_questions(test_graph):
             assert len(response_content) > 0
 
             # 질문과 응답을 markdown 파일에 기록
-            f.write(f"## 질문_{number_of_questions}:\n{question}\n")
-            f.write(f"## 응답_{number_of_questions}:\n{response_content}\n\n")
-            number_of_questions += 1
+            f.write(f"## 질문_{i}:\n{question}\n")
+            f.write(f"## 응답_{i}:\n{response_content}\n\n")
+            i += 1
 
 
 def test_follow_up_questions(test_graph):
@@ -199,14 +199,19 @@ def test_follow_up_questions(test_graph):
     ]
 
     file_name = _get_file_name()
-    number_of_questions = 1
+    prev_manual = {}
+    i = 1
     with open(file_name, "w", encoding="utf-8") as f:
         f.write("# test_follow_up_questions")
         for question in test_cases:
-            input_data = {"messages": [HumanMessage(content=question)]}
-            config = {"configurable": {"thread_id": f"test-{question[:10]}"}}
+            input_data = {
+                "messages": [HumanMessage(content=question)],
+                "similar_manual": prev_manual,
+            }
+            config = {"configurable": {"thread_id": "1"}}
 
             result = test_graph.invoke(input_data, config)
+            prev_manual = result["similar_manual"]
 
             # 응답 검증
             assert "messages" in result
@@ -215,6 +220,6 @@ def test_follow_up_questions(test_graph):
             assert len(response_content) > 0
 
             # 질문과 응답을 markdown 파일에 기록
-            f.write(f"## 질문_{number_of_questions}:\n{question}\n")
-            f.write(f"## 응답_{number_of_questions}:\n{response_content}\n\n")
-            number_of_questions += 1
+            f.write(f"## 질문_{i}:\n{question}\n")
+            f.write(f"## 응답_{i}:\n{response_content}\n\n")
+            i += 1

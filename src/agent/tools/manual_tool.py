@@ -1,9 +1,8 @@
 import os
-from typing import Dict, List
+from typing import Any, Dict, List
 
 import pandas as pd
 from langchain.schema import Document
-from langchain.tools import tool
 from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
 
@@ -44,20 +43,20 @@ class RAGRetriever:
         """
         try:
             if os.path.exists(PERSIST_DIRECTORY) and os.listdir(PERSIST_DIRECTORY):
-                print(f"기존 벡터스토어 로드 중: {PERSIST_DIRECTORY}")
                 self.vectorstore = Chroma(
                     persist_directory=PERSIST_DIRECTORY,
                     embedding_function=self.embeddings,
                     collection_name="rag-chroma",
                 )
+                logger.info("기존 벡터스토어 로드 완료: %s", PERSIST_DIRECTORY)
             else:
-                print("새 벡터스토어 생성 중...")
                 self.vectorstore = Chroma.from_documents(
                     documents=docs,
                     collection_name="rag-chroma",
                     embedding=self.embeddings,
                     persist_directory=PERSIST_DIRECTORY,
                 )
+                logger.info("벡터스토어 생성 완료: %s", PERSIST_DIRECTORY)
         except Exception as e:
             logger.error("ChromaDB 설정 중 에러 발생: %s", e)
             raise
@@ -98,9 +97,7 @@ documents = retriever.load_documents()
 retriever.setup_retriever(documents)
 
 
-# TODO: retriever에서 request 부분만 user_input과 코사인 유사도 판별
-@tool
-def manual_tool(user_input: str) -> Dict:
+def manual_tool(user_input: str) -> Dict[str, Any]:
     """
     모든 사용자의 입력을 응대 메뉴얼에서 가장 관련성 높은 답변을 찾아 반환합니다.
     질문의 내용이 확실하지 않다면 메뉴얼을 참고하여 질문을 재정의합니다.

@@ -20,6 +20,8 @@ def initialize_session_state():
     if "graph" not in st.session_state:
         st.session_state.graph = get_graph()
         save_graph_as_png(st.session_state.graph, "workflow.png")
+    if "similar_manual" not in st.session_state:
+        st.session_state.prev_manual = {}
 
 
 def main():
@@ -31,13 +33,13 @@ def main():
 
     # Display chat messages
     for message in st.session_state.messages:
-        with st.chat_message("user" if isinstance(message[1], HumanMessage) else "assistant"):
-            st.write(message[0])
+        with st.chat_message("user" if isinstance(message, HumanMessage) else "assistant"):
+            st.write(message.content)
 
     # Chat input
     if prompt := st.chat_input("질문을 입력하세요"):
         # Add user message to chat history
-        st.session_state.messages.append((prompt, HumanMessage(content=prompt)))
+        st.session_state.messages.append(HumanMessage(content=prompt))
         with st.chat_message("user"):
             st.write(prompt)
 
@@ -46,15 +48,18 @@ def main():
             with st.chat_message("assistant"):
                 with st.spinner("답변을 생성하고 있습니다..."):
                     res = st.session_state.graph.invoke(
-                        {"messages": [HumanMessage(content=prompt)]},
+                        {
+                            "messages": [HumanMessage(content=prompt)],
+                            "similar_manual": st.session_state.prev_manual,
+                        },
                         config,
                         stream_mode="values",
                     )
+                    st.session_state.prev_manual = res["similar_manual"]
 
                     if isinstance(res["messages"][-1], AIMessage):
-                        response = res["messages"][-1].content
-                        st.write(response)
-                        st.session_state.messages.append((response, res["messages"][-1]))
+                        st.write(res["messages"][-1].content)
+                        st.session_state.messages.append(res["messages"][-1])
 
         except Exception as e:
             logger.error("에러 발생: %s", e)
