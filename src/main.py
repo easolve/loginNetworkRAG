@@ -1,11 +1,13 @@
+from typing import Optional
+
 import streamlit as st
-from agent.agent import get_graph
-from agent.utils.visualize import save_graph_as_png
-from agent.utils.logger import logger
 from langchain.globals import set_debug, set_verbose
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.runnables import RunnableConfig
-from typing import Optional
+
+from agent.agent import get_graph
+from agent.utils.logger import logger
+from agent.utils.visualize import save_graph_as_png
 
 # TEST: 디버그
 set_debug(True)
@@ -44,7 +46,7 @@ def main():
             with st.chat_message("assistant"):
                 with st.spinner("답변을 생성하고 있습니다..."):
                     res = st.session_state.graph.invoke(
-                        {"messages": [HumanMessage(content=prompt)], "category": ""},
+                        {"messages": [HumanMessage(content=prompt)]},
                         config,
                         stream_mode="values",
                     )

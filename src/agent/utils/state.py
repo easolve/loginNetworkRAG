@@ -1,12 +1,17 @@
-from agent.utils.prompts import SYSTEM_PROMPT
-from langgraph.graph import MessagesState
+from typing import Any, Dict
+
 from langchain_core.messages import AnyMessage, SystemMessage
+from langgraph.graph import MessagesState
+
+from agent.utils.constants import Mode
+from agent.utils.prompts import SYSTEM_PROMPT
 
 
 class AgentState(MessagesState):
-    category: str
-    user_info: str
-    agent_info: str
+    mode: Mode
+    summary: str
+    similar_manual: Dict[str, Any]
+    known_info: Dict[str, Any]
 
 
 def initialize_state() -> AgentState:
@@ -14,10 +19,11 @@ def initialize_state() -> AgentState:
         SystemMessage(content=SYSTEM_PROMPT),
     ]
     return {
+        "mode": Mode.KNOWLEDGE,
+        "summary": "",
+        "similar_manual": {},
+        "known_info": {},
         "messages": messages,
-        "category": "",
-        "user_info": "",
-        "agent_info": "",
     }
 
 

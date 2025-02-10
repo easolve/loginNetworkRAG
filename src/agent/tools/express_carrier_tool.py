@@ -1,50 +1,16 @@
-from langchain.tools import tool
 from typing import Dict
-from enum import Enum
 
+from langchain.tools import tool
 
-class ExpressCourier(Enum):
-    PATECH = "파테크"
-    SGL = "SGL"
-    NAMGYEONG = "남경"
-    LOGISTORM = "로지스톰"
-    LOTOS = "LOTOS"
-    ACE = "ACE"
-
-
-CARRIER_INFO = {
-    ExpressCourier.PATECH: {
-        "email": "admin@forwarder.kr",
-        "Telephone": "032-201-1155",
-    },
-    ExpressCourier.SGL: {
-        "email": "sgl@siriusglobal.co.kr",
-        "Telephone": "051-441-7341",
-    },
-    ExpressCourier.NAMGYEONG: {
-        "email": "gtjeon@namkyungglobal.com",
-        "Telephone": "02-577-3331",
-    },
-    ExpressCourier.LOGISTORM: {
-        "email": "logistormail@gmail.com",
-        "Telephone": "02-2667-0306",
-    },
-    ExpressCourier.LOTOS: {
-        "email": "sale@lotos.co.jp",
-        "Telephone": "+81-3-6278-9408",
-    },
-    ExpressCourier.ACE: {
-        "email": "import2@iecoz.com",
-        "Telephone": "02-2038-7224",
-    },
-}
+from agent.utils.constants import CARRIER_INFO, ExpressCourier
 
 
 @tool
 def express_carrier_tool(name: ExpressCourier) -> Dict:
     """
-    사용자가 특송 업체에 직접 문의할 수 있도록 특송사의 정보를 제공합니다.
-    이메일과 전화번호를 제공합니다.
+    특송사, 관세사, 고객센터(회사) 중 특송사의 이메일과 전화번호를 제공합니다.
+    특송사에 직접 문의할 수 있도록 특송사의 정보를 활용할 수 있습니다.
+    고객센터의 정보는 `company_info_tool`을 사용하세요.
 
     Returns:
         Dict: {
@@ -52,4 +18,5 @@ def express_carrier_tool(name: ExpressCourier) -> Dict:
             "Telephone": str,
         }
     """
+    print("--- express_carrier_tool ---")
     return CARRIER_INFO.get(name, {"email": "정보 없음", "Telephone": "정보 없음"})
